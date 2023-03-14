@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  deluge:
+    build:
+      context: .
+      args:
+        DELUGE_INSTALLER: "${DELUGE_INSTALLER}"
+        DELUGE_INSTALLER_ARGS: "${DELUGE_INSTALLER_ARGS}"
+    hostname: "${CONTAINER_HOSTNAME}"
+    networks:
+      - bridge
+    mac_address: "${MAC_ADDRESS}"
+    restart: unless-stopped
+    environment:
+      deluged_args: "${DELUGED_ARGS}"
+      deluge_web_args: "${DELUGE_WEB_ARGS}"
+    volumes:
+      - type: bind
+        source: "${DOWNLOAD_DIR}"
+        target: C:\Users\ContainerAdministrator\Downloads
+      - type: bind
+        source: "${PRIVATE_DATA_DIR}"
+        target: C:\Users\ContainerAdministrator\AppData\Roaming\deluge
+
+networks:
+  bridge:
+    name: "${EXTERNAL_NETWORK}"
+    external: true
